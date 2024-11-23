@@ -6,6 +6,14 @@ type AuthResponse {
   accessToken: String!
 }
 
+input CreateTweetInput {
+  category: TweetCategoryEnum
+  content: String!
+  hashtags: [String!]
+  location: String
+  parentTweetId: Int
+}
+
 """
 A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
 """
@@ -17,18 +25,70 @@ input LoginInput {
 }
 
 type Mutation {
+  createTweet(createTweetInput: CreateTweetInput!): Tweet!
   login(authInput: LoginInput!): AuthResponse!
   register(authInput: RegisterInput!): AuthResponse!
+  removeTweet(id: Int!): Tweet!
+  updateTweet(updateTweetInput: UpdateTweetInput!): Tweet!
+}
+
+type PaginatedTweetsResponse {
+  hasNextPage: Boolean!
+  nodes: [Tweet!]!
+  totalCount: Int!
 }
 
 type Query {
   me: User!
+  paginateTweets(
+    limit: Int = 10
+    page: Int = 1
+    tweetsPaginationFiltersInput: TweetsPaginationFiltersInput
+  ): PaginatedTweetsResponse!
+  tweet(id: Int!): Tweet!
 }
 
 input RegisterInput {
   email: String!
   fullName: String!
   password: String!
+}
+
+type Tweet {
+  author: User
+  authorId: Float!
+  category: String
+  content: String!
+  createdAt: DateTime!
+  hashtags: [String!]!
+  id: Int!
+  location: String
+  parentTweet: Tweet
+  parentTweetId: Int
+  updatedAt: DateTime!
+}
+
+enum TweetCategoryEnum {
+  Finance
+  News
+  Sport
+  Tech
+}
+
+input TweetsPaginationFiltersInput {
+  authorId: Int
+  category: TweetCategoryEnum
+  location: String
+  parentTweetId: Int
+}
+
+input UpdateTweetInput {
+  category: TweetCategoryEnum
+  content: String
+  hashtags: [String!]
+  id: Int!
+  location: String
+  parentTweetId: Int
 }
 
 type User {

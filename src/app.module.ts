@@ -9,6 +9,7 @@ import { AuthModule } from './auth/auth.module';
 import { Configurations } from './config/configurations';
 import { GraphqlConfig } from './config/graphql.config';
 import { SequelizeConfig } from './config/sequelize.config';
+import { TweetsModule } from './tweets/tweets.module';
 import { UsersModule } from './users/users.module';
 
 @Module({
@@ -25,6 +26,8 @@ import { UsersModule } from './users/users.module';
     UsersModule,
 
     AuthModule,
+
+    TweetsModule,
   ],
 
   controllers: [AppController],

@@ -36,7 +36,7 @@ export abstract class BaseModel<TModelAttributes = any, TCreationAttributes = TM
       page: number;
       perPage: number;
     },
-  ): Promise<{ rows: M[]; currentPage: number; perPage: number; total: number }> {
+  ): Promise<{ rows: M[]; currentPage: number; perPage: number; total: number; hasNextPage: boolean }> {
     const page = options.page ?? 1;
     const perPage = options.perPage ?? 10;
 
@@ -51,6 +51,7 @@ export abstract class BaseModel<TModelAttributes = any, TCreationAttributes = TM
       total: count,
       currentPage: page,
       perPage,
+      hasNextPage: count > page * perPage,
     };
   }
 }

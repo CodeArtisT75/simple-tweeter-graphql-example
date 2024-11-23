@@ -1,4 +1,4 @@
-import { Transaction } from 'sequelize';
+import { Includeable, Order, Transaction } from 'sequelize';
 import { BaseModel } from './base-model';
 
 export interface RepositoryPaginationOptionsType {
@@ -8,6 +8,8 @@ export interface RepositoryPaginationOptionsType {
 
 export interface RepositoryOptionsType {
   transaction?: Transaction;
+  include: Includeable | Includeable[];
+  order: Order;
 }
 
 export abstract class BaseRepository<M extends BaseModel> {
